@@ -64,7 +64,7 @@ Simply upload the contents of the repository to any static hosting provider (Git
 
 ## 📝 Credits
 
-Built and maintained by Peace W. Mutuota. Icons or fonts used are from Google Fonts (`Playfair Display`, `Inter`).
+Built and maintained by Amon Wanyonyi. Icons or fonts used are from Google Fonts (`Playfair Display`, `Inter`).
 
 ## 📄 License
 
