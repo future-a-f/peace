@@ -490,6 +490,14 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
+// Close lightbox with Escape key
+document.addEventListener('keydown', (e) => {
+    // Close mobile menu on ESC key
+    if (e.key === "Escape" && navLinks.classList.contains("active")) {
+        navLinks.classList.remove("active");
+    }
+});
+
 // =======================================
 // LAZY LOADING IMAGES
 // =======================================
@@ -499,10 +507,12 @@ if ("IntersectionObserver" in window) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const img = entry.target;
-                img.src = img.src;
+                img.src = img.dataset.src;
                 imageObserver.unobserve(img);
             }
         });
+    }, {
+        rootMargin: "50px"
     });
     
     images.forEach(img => imageObserver.observe(img));
