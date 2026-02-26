@@ -4,7 +4,6 @@ This repository contains the source code for a personal portfolio website for **
 
 ## 🗂️ Project Structure
 
-```
 peace/
 ├── index.html                     # main HTML file with all sections
 ├── README.md                      # this file
@@ -20,7 +19,6 @@ peace/
 │   ├── img/                       # images used by site (profile, certificates)
 │   └── documents/                 # downloadable docs (CV, certificates)
 └── assets/css/... (other files)   # existing structure
-```
 
 ## 🚀 Getting Started
 
@@ -34,10 +32,12 @@ peace/
 1. Clone or download the repository.
 2. Open the workspace folder in VS Code or your editor of choice.
 3. Open `index.html` directly or serve the folder using a simple HTTP server:
+
    ```bash
    # using Python 3
    python -m http.server
    ```
+
 4. Navigate to `http://localhost:8000` (or file path) to view the site.
 
 ## 🛠️ Features & Enhancements
@@ -70,5 +70,6 @@ Built and maintained by Amon Wanyonyi. Icons or fonts used are from Google Fonts
 
 This project is provided for demonstration purposes and may be adapted freely.
 
+---
 
 _Last updated: February 2026._
