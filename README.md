@@ -70,6 +70,5 @@ Built and maintained by Peace W. Mutuota. Icons or fonts used are from Google Fo
 
 This project is provided for demonstration purposes and may be adapted freely.
 
----
 
 _Last updated: February 2026._
