@@ -15,6 +15,7 @@
 
     .hero-image img {
         width: 400px;
+        height: auto;
     }
 
     .skills-grid {
@@ -114,6 +115,7 @@
     .hero-image img {
         width: 100%;
         max-width: 300px;
+        height: auto;
     }
 
     .hero-buttons {
@@ -410,6 +412,7 @@
 
     .hero-image img {
         width: 600px;
+        height: auto;
     }
 
     .section-header h2 {
@@ -433,6 +436,7 @@
 
     .hero-image img {
         width: 300px;
+        height: auto;
     }
 }
 

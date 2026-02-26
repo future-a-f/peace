@@ -5,13 +5,15 @@ const toggle = document.getElementById("menu-toggle");
 const navLinks = document.querySelector(".nav-links");
 
 toggle.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
+    const isActive = navLinks.classList.toggle("active");
+    toggle.setAttribute("aria-expanded", isActive);
 });
 
 // Close menu when clicking on a link
 document.querySelectorAll(".nav-links a").forEach(link => {
     link.addEventListener("click", () => {
         navLinks.classList.remove("active");
+        toggle.setAttribute("aria-expanded", "false");
     });
 });
 
@@ -19,6 +21,7 @@ document.querySelectorAll(".nav-links a").forEach(link => {
 document.addEventListener("click", (e) => {
     if (!e.target.closest(".menu-toggle") && !e.target.closest(".nav-links")) {
         navLinks.classList.remove("active");
+        toggle.setAttribute("aria-expanded", "false");
     }
 });
 
@@ -225,6 +228,303 @@ function protectImage(img) {
 certs.forEach(protectImage);
 
 // =======================================
+// CONTACT FORM FUNCTIONALITY
+// =======================================
+const contactForm = document.getElementById('contact-form');
+const formSuccess = document.getElementById('form-success');
+const formError = document.getElementById('form-error');
+const submitButton = contactForm.querySelector('button[type="submit"]');
+const btnText = submitButton.querySelector('.btn-text');
+const btnLoading = submitButton.querySelector('.btn-loading');
+const messageTextarea = document.getElementById('message');
+const charCount = document.getElementById('char-count');
+const maxChars = 500;
+
+// Character counter
+messageTextarea.addEventListener('input', () => {
+    const currentLength = messageTextarea.value.length;
+    charCount.textContent = currentLength;
+    
+    // Update character count styling
+    const charCountElement = charCount.parentElement;
+    charCountElement.classList.remove('warning', 'error');
+    
+    if (currentLength > maxChars) {
+        charCountElement.classList.add('error');
+        messageTextarea.value = messageTextarea.value.substring(0, maxChars);
+        charCount.textContent = maxChars;
+    } else if (currentLength > maxChars * 0.9) {
+        charCountElement.classList.add('warning');
+    }
+});
+
+// Form validation
+function validateForm(formData) {
+    const errors = {};
+    
+    // Name validation
+    if (!formData.name.trim()) {
+        errors.name = 'Name is required';
+    } else if (formData.name.trim().length < 2) {
+        errors.name = 'Name must be at least 2 characters';
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+        errors.email = 'Email is required';
+    } else if (!emailRegex.test(formData.email)) {
+        errors.email = 'Please enter a valid email address';
+    }
+    
+    // Phone validation (optional but if provided, must be valid)
+    if (formData.phone && formData.phone.trim()) {
+        const phoneRegex = /^[\+]?[0-9\s\-\(\)]+$/;
+        if (!phoneRegex.test(formData.phone.trim())) {
+            errors.phone = 'Please enter a valid phone number';
+        }
+    }
+    
+    // Subject validation
+    if (!formData.subject) {
+        errors.subject = 'Please select a subject';
+    }
+    
+    // Message validation
+    if (!formData.message.trim()) {
+        errors.message = 'Message is required';
+    } else if (formData.message.trim().length < 10) {
+        errors.message = 'Message must be at least 10 characters';
+    } else if (formData.message.trim().length > maxChars) {
+        errors.message = `Message must be less than ${maxChars} characters`;
+    }
+    
+    return errors;
+}
+
+// Display form errors
+function displayErrors(errors) {
+    // Clear all previous errors
+    document.querySelectorAll('.form-error').forEach(errorEl => {
+        errorEl.textContent = '';
+    });
+    document.querySelectorAll('.form-input').forEach(inputEl => {
+        inputEl.classList.remove('error');
+    });
+    
+    // Display new errors
+    Object.keys(errors).forEach(field => {
+        const errorEl = document.getElementById(`${field}-error`);
+        const inputEl = document.getElementById(field);
+        
+        if (errorEl && inputEl) {
+            errorEl.textContent = errors[field];
+            inputEl.classList.add('error');
+        }
+    });
+}
+
+// Clear form errors
+function clearErrors() {
+    document.querySelectorAll('.form-error').forEach(errorEl => {
+        errorEl.textContent = '';
+    });
+    document.querySelectorAll('.form-input').forEach(inputEl => {
+        inputEl.classList.remove('error');
+    });
+}
+
+// Reset form
+function resetForm() {
+    contactForm.reset();
+    clearErrors();
+    formSuccess.style.display = 'none';
+    formError.style.display = 'none';
+    charCount.textContent = '0';
+    charCount.parentElement.classList.remove('warning', 'error');
+}
+
+// Show form message
+function showMessage(type, messageElement) {
+    // Hide both messages first
+    formSuccess.style.display = 'none';
+    formError.style.display = 'none';
+    
+    // Show the appropriate message
+    messageElement.style.display = 'block';
+    
+    // Scroll to message
+    messageElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    
+    // Hide message after 10 seconds
+    setTimeout(() => {
+        messageElement.style.display = 'none';
+    }, 10000);
+}
+
+// Handle form submission
+contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Clear previous errors
+    clearErrors();
+    
+    // Get form data
+    const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        company: document.getElementById('company').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value,
+        newsletter: document.getElementById('newsletter').checked,
+        honeypot: document.getElementById('honeypot').value
+    };
+    
+    // Validate form
+    const errors = validateForm(formData);
+    
+    if (Object.keys(errors).length > 0) {
+        displayErrors(errors);
+        return;
+    }
+    
+    // Check honeypot (spam protection)
+    if (formData.honeypot) {
+        // This is likely spam, show success but don't actually send
+        showMessage('success', formSuccess);
+        setTimeout(resetForm, 2000);
+        return;
+    }
+    
+    // Show loading state
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'inline-flex';
+    submitButton.disabled = true;
+    
+    try {
+        // Simulate form submission (replace with actual endpoint)
+        await simulateFormSubmission(formData);
+        
+        // Show success message
+        showMessage('success', formSuccess);
+        
+        // Track form submission for analytics
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'form_submit', {
+                'event_category': 'contact',
+                'event_label': formData.subject,
+                'custom_parameter_1': formData.newsletter ? 'newsletter_yes' : 'newsletter_no'
+            });
+        }
+        
+        // Reset form after delay
+        setTimeout(resetForm, 2000);
+        
+    } catch (error) {
+        console.error('Form submission error:', error);
+        showMessage('error', formError);
+    } finally {
+        // Reset button state
+        btnText.style.display = 'inline';
+        btnLoading.style.display = 'none';
+        submitButton.disabled = false;
+    }
+});
+
+// Simulate form submission (replace with actual API call)
+function simulateFormSubmission(formData) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            // Simulate 90% success rate
+            if (Math.random() > 0.1) {
+                resolve({ success: true });
+            } else {
+                reject(new Error('Network error'));
+            }
+        }, 2000);
+    });
+}
+
+// Real-time validation
+document.getElementById('name').addEventListener('blur', (e) => {
+    const value = e.target.value.trim();
+    const errorEl = document.getElementById('name-error');
+    
+    if (!value) {
+        errorEl.textContent = 'Name is required';
+        e.target.classList.add('error');
+    } else if (value.length < 2) {
+        errorEl.textContent = 'Name must be at least 2 characters';
+        e.target.classList.add('error');
+    } else {
+        errorEl.textContent = '';
+        e.target.classList.remove('error');
+    }
+});
+
+document.getElementById('email').addEventListener('blur', (e) => {
+    const value = e.target.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const errorEl = document.getElementById('email-error');
+    
+    if (!value) {
+        errorEl.textContent = 'Email is required';
+        e.target.classList.add('error');
+    } else if (!emailRegex.test(value)) {
+        errorEl.textContent = 'Please enter a valid email address';
+        e.target.classList.add('error');
+    } else {
+        errorEl.textContent = '';
+        e.target.classList.remove('error');
+    }
+});
+
+document.getElementById('phone').addEventListener('blur', (e) => {
+    const value = e.target.value.trim();
+    const errorEl = document.getElementById('phone-error');
+    
+    if (value) {
+        const phoneRegex = /^[\+]?[0-9\s\-\(\)]+$/;
+        if (!phoneRegex.test(value)) {
+            errorEl.textContent = 'Please enter a valid phone number';
+            e.target.classList.add('error');
+        } else {
+            errorEl.textContent = '';
+            e.target.classList.remove('error');
+        }
+    } else {
+        errorEl.textContent = '';
+        e.target.classList.remove('error');
+    }
+});
+
+document.getElementById('message').addEventListener('blur', (e) => {
+    const value = e.target.value.trim();
+    const errorEl = document.getElementById('message-error');
+    
+    if (!value) {
+        errorEl.textContent = 'Message is required';
+        e.target.classList.add('error');
+    } else if (value.length < 10) {
+        errorEl.textContent = 'Message must be at least 10 characters';
+        e.target.classList.add('error');
+    } else if (value.length > maxChars) {
+        errorEl.textContent = `Message must be less than ${maxChars} characters`;
+        e.target.classList.add('error');
+    } else {
+        errorEl.textContent = '';
+        e.target.classList.remove('error');
+    }
+});
+
+// =======================================
+// GLOBAL FUNCTIONS
+// =======================================
+// Make resetForm globally accessible for HTML onclick handlers
+window.resetForm = resetForm;
+
+// =======================================
 // CERTIFICATE SHARING FUNCTIONALITY
 // =======================================
 const lightboxShare = document.getElementById('lightbox-share');
@@ -414,6 +714,7 @@ document.addEventListener('keydown', (e) => {
     // Close mobile menu on ESC key
     if (e.key === "Escape" && navLinks.classList.contains("active")) {
         navLinks.classList.remove("active");
+        toggle.setAttribute("aria-expanded", "false");
     }
     
     // Certificate lightbox keyboard navigation
@@ -481,24 +782,6 @@ window.addEventListener("load", () => {
 });
 
 // =======================================
-// KEYBOARD ACCESSIBILITY
-// =======================================
-document.addEventListener("keydown", (e) => {
-    // Close mobile menu on ESC key
-    if (e.key === "Escape" && navLinks.classList.contains("active")) {
-        navLinks.classList.remove("active");
-    }
-});
-
-// Close lightbox with Escape key
-document.addEventListener('keydown', (e) => {
-    // Close mobile menu on ESC key
-    if (e.key === "Escape" && navLinks.classList.contains("active")) {
-        navLinks.classList.remove("active");
-    }
-});
-
-// =======================================
 // LAZY LOADING IMAGES
 // =======================================
 if ("IntersectionObserver" in window) {
@@ -507,7 +790,7 @@ if ("IntersectionObserver" in window) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const img = entry.target;
-                img.src = img.dataset.src;
+                // Image already has src attribute, just ensure it loads
                 imageObserver.unobserve(img);
             }
         });

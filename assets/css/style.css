@@ -6,7 +6,7 @@
 :root {
     --primary: #0F172A;
     --accent: #2543AF;
-    --gradient: linear-gradient(to right, #2543AF 0%, #2543AF 100%);
+    --gradient: linear-gradient(135deg, #2543AF 0%, #1e40af 50%, #1e3a8a 100%);
     --text-primary: #0F172A;
     --text-secondary: #475569;
     --text-light: #64748b;

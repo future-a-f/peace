@@ -22,7 +22,7 @@
     content="Research | Policy Analysis | Strategic Communication | Governance & Security">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://peace-mutuota.github.io/">
-  <meta property="og:image" content="https://peace-mutuota.github.io/assets/img/profile.jpg">
+  <meta property="og:image" content="https://peace-mutuota.github.io/assets/img/profile.jpeg">
   <meta property="og:image:alt" content="Peace W. Mutuota - Professional Portrait">
   <meta property="og:site_name" content="Peace W. Mutuota Portfolio">
 
@@ -30,7 +30,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Peace W. Mutuota | International Relations & Public Policy Professional">
   <meta name="twitter:description" content="Research | Policy Analysis | Strategic Communication | Governance & Security">
-  <meta name="twitter:image" content="https://peace-mutuota.github.io/assets/img/profile.jpg">
+  <meta name="twitter:image" content="https://peace-mutuota.github.io/assets/img/profile.jpeg">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -41,7 +41,7 @@
     "jobTitle": "International Relations & Public Policy Professional",
     "description": "Specializing in research, strategic communication, governance, and security studies",
     "url": "https://peace-mutuota.github.io/",
-    "image": "https://peace-mutuota.github.io/assets/img/profile.jpg",
+    "image": "https://peace-mutuota.github.io/assets/img/profile.jpeg",
     "email": "peacemutuota@gmail.com",
     "telephone": "+254792422747",
     "address": {
@@ -105,7 +105,7 @@
 
       <nav class="nav" role="navigation" aria-label="Main navigation">
         <ul class="nav-links">
-          <li><a href="#about" aria-current="page">About</a></li>
+          <li><a href="#about">About</a></li>
           <li><a href="#skills">Competencies</a></li>
           <li><a href="#experience">Experience</a></li>
           <li><a href="#leadership">Leadership</a></li>
@@ -114,7 +114,7 @@
         </ul>
       </nav>
 
-      <a href="assets/documents/peace-mutuota-cv.pdf" class="btn btn-primary" target="blank" aria-label="Download Peace W. Mutuota CV">
+      <a href="assets/documents/peace-mutuota-cv.pdf" class="btn btn-primary" target="_blank" aria-label="Download Peace W. Mutuota CV">
         Download CV
       </a>
 
@@ -129,12 +129,12 @@
   <main id="main" role="main">
 
   <!-- ================= HERO SECTION ================= -->
-  <section id="hero" class="section hero" role="banner">
+  <section id="hero" class="section hero">
     <div class="container hero-content">
 
       <div class="hero-text">
         <h1>Peace W. Mutuota</h1>
-        <h2>International Relations & Public Policy Professional</h2>
+        <h2>International Relations, Security & Public Policy Professional</h2>
         <p class="hero-tagline">Advancing governance through evidence-based research and strategic insight</p>
         <p>
           Experienced in research, strategic communication, governance initiatives,
@@ -149,7 +149,7 @@
       </div>
 
       <div class="hero-image">
-        <img src="assets/img/profile.jpeg" alt="Peace Wanjiku Mutuota - Professional portrait" loading="lazy">
+        <img src="assets/img/profile.png" alt="Peace Wanjiku Mutuota - Professional portrait" loading="lazy">
       </div>
 
     </div>
@@ -408,9 +408,9 @@
             </div>
           </div>
 
-          <div class="certificate-item" data-category="professional" data-full="assets/documents/grant-writing-certificate.png" data-title="Grant Writing Certificate" data-issuer="Professional Development" data-date="2024" data-credentials="Grant Writing Certificate">
+          <div class="certificate-item" data-category="professional" data-full="assets/documents/grand-writing-certificate.png" data-title="Grant Writing Certificate" data-issuer="Professional Development" data-date="2024" data-credentials="Grant Writing Certificate">
             <div class="cert-preview">
-              <img src="assets/documents/grant-writing-certificate.png" alt="Grant Writing Certificate" draggable="false" oncontextmenu="return false;" onmousedown="return false;">
+              <img src="assets/documents/grand-writing-certificate.png" alt="Grant Writing Certificate" draggable="false" oncontextmenu="return false;" onmousedown="return false;">
               <div class="cert-overlay">
                 <div class="cert-icon">✍️</div>
                 <div class="cert-title">Grant Writing</div>
@@ -485,6 +485,18 @@
             </div>
 
             <div class="form-group">
+              <label for="phone" class="form-label">Phone (Optional)</label>
+              <input type="tel" id="phone" name="phone" class="form-input" placeholder="+254 7XX XXX XXX" aria-describedby="phone-error">
+              <div id="phone-error" class="form-error" role="alert" aria-live="polite"></div>
+            </div>
+
+            <div class="form-group">
+              <label for="company" class="form-label">Company/Organization (Optional)</label>
+              <input type="text" id="company" name="company" class="form-input" placeholder="Your company or organization" aria-describedby="company-error">
+              <div id="company-error" class="form-error" role="alert" aria-live="polite"></div>
+            </div>
+
+            <div class="form-group">
               <label for="subject" class="form-label">Subject *</label>
               <select id="subject" name="subject" class="form-input" required aria-required="true" aria-describedby="subject-error">
                 <option value="">Select a subject</option>
@@ -492,6 +504,8 @@
                 <option value="collaboration">Collaboration Opportunity</option>
                 <option value="research">Research Partnership</option>
                 <option value="consulting">Consulting Services</option>
+                <option value="speaking">Speaking Engagement</option>
+                <option value="media">Media Inquiry</option>
                 <option value="other">Other</option>
               </select>
               <div id="subject-error" class="form-error" role="alert" aria-live="polite"></div>
@@ -499,8 +513,19 @@
 
             <div class="form-group">
               <label for="message" class="form-label">Message *</label>
-              <textarea id="message" name="message" class="form-input" rows="5" required aria-required="true" aria-describedby="message-error"></textarea>
+              <textarea id="message" name="message" class="form-input" rows="5" required aria-required="true" aria-describedby="message-error" placeholder="Tell me about your project, inquiry, or how we can collaborate..."></textarea>
+              <div class="char-count">
+                <span id="char-count">0</span> / 500 characters
+              </div>
               <div id="message-error" class="form-error" role="alert" aria-live="polite"></div>
+            </div>
+
+            <div class="form-group checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="newsletter" name="newsletter" value="yes">
+                <span class="checkmark"></span>
+                Send me occasional updates about research and professional opportunities
+              </label>
             </div>
 
             <div class="form-group">
@@ -515,13 +540,17 @@
           </form>
 
           <div id="form-success" class="form-message form-success" role="alert" aria-live="polite" style="display: none;">
+            <div class="success-icon">✓</div>
             <h3>Message Sent Successfully!</h3>
             <p>Thank you for reaching out. I'll get back to you within 24-48 hours.</p>
+            <button class="btn btn-outline btn-small" onclick="resetForm()">Send Another Message</button>
           </div>
 
           <div id="form-error" class="form-message form-error" role="alert" aria-live="polite" style="display: none;">
+            <div class="error-icon">⚠</div>
             <h3>Message Not Sent</h3>
             <p>There was an error sending your message. Please try again or contact me directly via email.</p>
+            <button class="btn btn-outline btn-small" onclick="resetForm()">Try Again</button>
           </div>
         </div>
 
