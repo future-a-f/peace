@@ -228,6 +228,13 @@ function protectImage(img) {
 certs.forEach(protectImage);
 
 // =======================================
+// EMAILJS INITIALIZATION
+// =======================================
+(function() {
+    emailjs.init("NOU7NpVXxzHGQ_mSX"); // Replace with actual EmailJS public key
+})();
+
+// =======================================
 // CONTACT FORM FUNCTIONALITY
 // =======================================
 const contactForm = document.getElementById('contact-form');
@@ -403,8 +410,17 @@ contactForm.addEventListener('submit', async (e) => {
     submitButton.disabled = true;
     
     try {
-        // Simulate form submission (replace with actual endpoint)
-        await simulateFormSubmission(formData);
+        // Send email using EmailJS
+        await emailjs.send("service_7dc4oml", "template_amvl5qc", {
+            from_name: formData.name,
+            from_email: formData.email,
+            from_phone: formData.phone || "Not provided",
+            from_company: formData.company || "Not provided",
+            subject: document.getElementById('subject').options[document.getElementById('subject').selectedIndex].text,
+            message: formData.message,
+            newsletter: formData.newsletter ? "Yes" : "No",
+            to_email: "peacemutuota@gmail.com"
+        });
         
         // Show success message
         showMessage('success', formSuccess);
@@ -431,20 +447,6 @@ contactForm.addEventListener('submit', async (e) => {
         submitButton.disabled = false;
     }
 });
-
-// Simulate form submission (replace with actual API call)
-function simulateFormSubmission(formData) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            // Simulate 90% success rate
-            if (Math.random() > 0.1) {
-                resolve({ success: true });
-            } else {
-                reject(new Error('Network error'));
-            }
-        }, 2000);
-    });
-}
 
 // Real-time validation
 document.getElementById('name').addEventListener('blur', (e) => {
